@@ -51,7 +51,7 @@ services:
       OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-error} # make oCIS less verbose
       PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
     volumes:
-      - ocis-data:/var/tmp/ocis
+      - ocis-data:/var/lib/ocis/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ocis.entrypoints=http"

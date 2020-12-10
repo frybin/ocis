@@ -76,7 +76,7 @@ services:
       PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
     volumes:
       - ./config/ocis/proxy-config.json:/config/proxy-config.json
-      - ocis-data:/var/tmp/ocis
+      - ocis-data:/var/lib/ocis
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ocis.entrypoints=http"

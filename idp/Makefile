@@ -86,14 +86,16 @@ staticcheck:
 lint:
 	for PKG in $(PACKAGES); do go run golang.org/x/lint/golint -set_exit_status $$PKG || exit 1; done;
 
-.PHONY: generate
 generate: assets
 	go generate $(GENERATE)
 
-# TODO find a docker container with go and yarn so we can properly build assets in ci
-#assets: assets/identifier/static assets/identifier/index.html
-.PHONY: assets
-assets: assets/identifier/static assets/identifier/static/logo.svg assets/identifier/static/favicon.ico
+assets:
+ci-go-generate: # CI cares iself about assets
+	go generate $(GENERATE)
+
+ci-node-generate: assets
+
+assets: assets/identifier/static assets/identifier/static/logo.svg assets/identifier/index.html assets/identifier/static/favicon.ico
 
 assets/identifier/static:
 	mkdir -p assets/identifier/static

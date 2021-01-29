@@ -88,6 +88,10 @@ lint:
 generate: protobuf
 	go generate $(GENERATE)
 
+ci-go-generate: generate
+
+ci-node-generate:
+
 .PHONY: changelog
 changelog:
 	go run github.com/restic/calens >| CHANGELOG.md

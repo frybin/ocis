@@ -1263,11 +1263,20 @@ def docs(ctx):
 def makeGenerate(module):
   return [
     {
-      'name': 'generate',
+      'name': 'generate nodejs',
+      'image': 'owncloudci/nodejs:12',
+      'pull': 'always',
+      'commands': [
+        'make -C %s ci-node-generate' % (module),
+      ],
+      'volumes': [stepVolumeGoWebhippie,],
+    },
+    {
+      'name': 'generate go',
       'image': 'webhippie/golang:1.15',
       'pull': 'always',
       'commands': [
-        'make -C %s generate' % (module),
+        'make -C %s ci-go-generate' % (module),
       ],
       'volumes': [stepVolumeGoWebhippie,],
     }

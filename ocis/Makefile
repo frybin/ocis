@@ -90,6 +90,10 @@ lint: ## lint
 generate: ## generate
 	go generate $(GENERATE)
 
+ci-go-generate: generate
+
+ci-node-generate:
+
 .PHONY: changelog
 changelog: ## generate changelog
 	go run github.com/restic/calens -i ../changelog -t ../changelog/CHANGELOG.tmpl >| ../CHANGELOG.md

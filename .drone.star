@@ -351,7 +351,7 @@ def buildOcisBinaryForTesting(ctx):
       'arch': 'amd64',
     },
     'steps':
-      makeGenerate('ocis') +
+      makeGenerate('') +
       build() +
       rebuildBuildArtifactCache(ctx, 'ocis-binary-amd64', 'ocis/bin/ocis'),
     'trigger': {
@@ -704,7 +704,7 @@ def dockerRelease(ctx, arch):
       'arch': arch,
     },
     'steps':
-      makeGenerate('ocis') +
+      makeGenerate('') +
       build() + [
       {
         'name': 'dryrun',
@@ -871,7 +871,7 @@ def binaryRelease(ctx, name):
       'arch': 'amd64',
     },
     'steps':
-      makeGenerate('ocis') + [
+      makeGenerate('') + [
       {
         'name': 'build',
         'image': 'webhippie/golang:1.15',
@@ -1261,13 +1261,17 @@ def docs(ctx):
   }
 
 def makeGenerate(module):
+  if module == "":
+    make = "make"
+  else:
+    make = "make -C %s" % (module)
   return [
     {
       'name': 'generate nodejs',
       'image': 'owncloudci/nodejs:12',
       'pull': 'always',
       'commands': [
-        'make -C %s ci-node-generate' % (module),
+        '%s ci-node-generate' % (make),
       ],
       'volumes': [stepVolumeGoWebhippie,],
     },
@@ -1276,7 +1280,7 @@ def makeGenerate(module):
       'image': 'webhippie/golang:1.15',
       'pull': 'always',
       'commands': [
-        'make -C %s ci-go-generate' % (module),
+        '%s ci-go-generate' % (make),
       ],
       'volumes': [stepVolumeGoWebhippie,],
     }

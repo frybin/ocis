@@ -79,6 +79,18 @@ vendor-bin/behat/composer.lock: vendor-bin/behat/composer.json
 composer.lock: composer.json
 	@echo composer.lock is not up to date.
 
+.PHONY: ci-go-generate
+ci-go-generate:
+	@for mod in $(OCIS_MODULES); do \
+        $(MAKE) --no-print-directory -C $$mod ci-go-generate; \
+    done
+
+.PHONY: ci-node-generate
+ci-node-generate:
+	@for mod in $(OCIS_MODULES); do \
+        $(MAKE) --no-print-directory -C $$mod ci-node-generate; \
+    done
+
 .PHONY: go-mod-tidy
 go-mod-tidy:
 	@for mod in $(OCIS_MODULES); do \

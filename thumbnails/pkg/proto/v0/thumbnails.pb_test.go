@@ -36,7 +36,7 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"Foo.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK" `,
+			`filepath:"Foo.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
 		},
 		{
 			"UTF",
@@ -46,7 +46,7 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"\340\244\256\340\244\277\340\244\262\340\244\250.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK" `,
+			`filepath:"\340\244\256\340\244\277\340\244\262\340\244\250.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
 		},
 		{
 			"PNG",
@@ -56,7 +56,7 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"Foo.png" etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK" `,
+			`filepath:"Foo.png" etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
 		},
 	}
 

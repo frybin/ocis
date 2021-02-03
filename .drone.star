@@ -1,20 +1,20 @@
 config = {
-  'modules': {
-    'accounts': 'frontend',
-    'glauth':'',
-    'idp':'',
-    'ocis': '',
-    'web':'',
-    'ocis-pkg':'',
-    'ocs':'',
-    'proxy':'',
-    'settings':'frontend',
-    'storage':'',
-    'store':'',
-    'thumbnails':'',
-    'webdav':'',
-    'onlyoffice':'frontend'
-  },
+  'modules': [
+    'accounts',
+    'glauth',
+    'idp',
+    'ocis',
+    'web',
+    'ocis-pkg',
+    'ocs',
+    'proxy',
+    'settings',
+    'storage',
+    'store',
+    'thumbnails',
+    'webdav',
+    'onlyoffice',
+  ],
   'apiTests': {
     'numberOfParts': 10
   },
@@ -317,9 +317,6 @@ def testOcisModule(ctx, module):
         }
       }
   ]
-
-  if config['modules'][module] == 'frontend':
-    steps = frontend(module) + steps
 
   return {
     'kind': 'pipeline',
@@ -1182,9 +1179,9 @@ def docs(ctx):
     },
     'steps': [
       {
-        'name': 'generate-config-docs',
+        'name': 'docs-generate',
         'image': 'webhippie/golang:1.15',
-        'commands': ['make -C %s config-docs-generate' % (module) for module in config['modules']],
+        'commands': ['make -C %s docs-generate' % (module) for module in config['modules']],
       },
       {
         'name': 'prepare',
@@ -1324,22 +1321,6 @@ def notify(ctx):
 			]
     }
   }
-
-def frontend(module):
-  return [
-    {
-      'name': 'frontend',
-      'image': 'webhippie/nodejs:latest',
-      'pull': 'always',
-      'commands': [
-        'cd %s' % (module),
-        'yarn install --frozen-lockfile',
-        'yarn lint',
-        'yarn test',
-        'yarn build',
-      ],
-    }
-  ]
 
 def ocisServer(storage, accounts_hash_difficulty = 4, volumes=[]):
   environment = {

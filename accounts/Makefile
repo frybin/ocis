@@ -29,6 +29,11 @@ FEATURE_PATH ?= "ui/tests/acceptance/features"
 
 TAGS ?=
 
+ifndef GOPATH
+	export GOPATH := $(shell go env GOPATH)
+endif
+export PATH := $(PATH):$(GOPATH)/bin
+
 ifndef OUTPUT
 	ifneq ($(DRONE_TAG),)
 		OUTPUT ?= $(subst v,,$(DRONE_TAG))

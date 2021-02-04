@@ -15,19 +15,19 @@ type TestRequest struct {
 	width         int32
 	height        int32
 	authorization string
-	expected      string
+	expected      proto.GetRequest
 }
 
 type TestResponse struct {
 	testDataName string
 	img          []byte
 	mimetype     string
-	expected     string
+	expected     proto.GetResponse
 }
 
 func TestRequestString(t *testing.T) {
 
-	var tests = []TestRequest{
+	var tests = []*TestRequest{
 		{
 			"ASCII",
 			"Foo.jpg",
@@ -36,7 +36,14 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"Foo.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
+			proto.GetRequest{
+				Filepath:      "Foo.jpg",
+				Filetype:      proto.GetRequest_JPG,
+				Etag:          "33a64df551425fcc55e4d42a148795d9f25f89d4",
+				Width:         24,
+				Height:        24,
+				Authorization: "Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
+			},
 		},
 		{
 			"UTF",
@@ -46,7 +53,14 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"\340\244\256\340\244\277\340\244\262\340\244\250.jpg" filetype:JPG etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
+			proto.GetRequest{
+				Filepath:      "\340\244\256\340\244\277\340\244\262\340\244\250.jpg",
+				Filetype:      proto.GetRequest_JPG,
+				Etag:          "33a64df551425fcc55e4d42a148795d9f25f89d4",
+				Width:         24,
+				Height:        24,
+				Authorization: "Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
+			},
 		},
 		{
 			"PNG",
@@ -56,7 +70,13 @@ func TestRequestString(t *testing.T) {
 			24,
 			24,
 			"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
-			`filepath:"Foo.png" etag:"33a64df551425fcc55e4d42a148795d9f25f89d4" width:24 height:24 authorization:"Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK"`,
+			proto.GetRequest{
+				Filepath:      "Foo.png",
+				Etag:          "33a64df551425fcc55e4d42a148795d9f25f89d4",
+				Width:         24,
+				Height:        24,
+				Authorization: "Basic SGVXaG9SZWFkc1RoaXM6SXNTdHVwaWQK",
+			},
 		},
 	}
 
@@ -70,18 +90,21 @@ func TestRequestString(t *testing.T) {
 				Width:         testCase.width,
 				Authorization: testCase.authorization,
 			}
-			assert.Equal(t, testCase.expected, req.String())
+			assert.Equal(t, testCase.expected.String(), req.String())
 		})
 	}
 }
 
 func TestResponseString(t *testing.T) {
-	var tests = []TestResponse{
+	var tests = []*TestResponse{
 		{
 			"ASCII",
 			[]byte("image data"),
 			"image/png",
-			`thumbnail:"image data" mimetype:"image/png" `,
+			proto.GetResponse{
+				Thumbnail: []byte("image data"),
+				Mimetype:  "image/png",
+			},
 		},
 	}
 
@@ -92,7 +115,7 @@ func TestResponseString(t *testing.T) {
 				Mimetype:  testCase.mimetype,
 			}
 
-			assert.Equal(t, testCase.expected, response.String())
+			assert.Equal(t, testCase.expected.String(), response.String())
 		})
 	}
 }
